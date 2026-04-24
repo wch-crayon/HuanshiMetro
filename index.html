@@ -547,19 +547,19 @@
                 <div class="carousel-section">
                     <div class="carousel-container">
                         <div class="carousel-slides" id="carouselSlides">
-                            <div class="carousel-slide">
-                                <img src="welpic1.png" alt="welpic1" <!-- onerror="this.src='https://placehold.co/800x400/277c66/white?text=图片1+未找到'" -->幻市地铁，与您同行
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="welpic2.png" alt="welpic2" <!-- onerror="this.src='https://placehold.co/800x400/277c66/white?text=图片2+未找到'" -->冰火港站
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="welpic3.png" alt="welpic3" <!-- onerror="this.src='https://placehold.co/800x400/277c66/white?text=图片3+未找到'" -->清松岭站
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="welpic4.png" alt="welpic4" <!-- onerror="this.src='https://placehold.co/800x400/277c66/white?text=图片4+未找到'" -->萝卜村车辆段
-                            </div>
-                        </div>
+    				<div class="carousel-slide">
+        				<img src="welpic1.png" alt="幻市地铁，与您同行">
+    				</div>
+    				<div class="carousel-slide">
+        				<img src="welpic2.png" alt="冰火港站">
+    				</div>
+    				<div class="carousel-slide">
+        				<img src="welpic3.png" alt="清松岭站">
+    				</div>
+    				<div class="carousel-slide">
+        				<img src="welpic4.png" alt="萝卜村车辆段">
+    				</div>
+			</div>
                         <button class="carousel-btn prev" id="prevBtn">❮</button>
                         <button class="carousel-btn next" id="nextBtn">❯</button>
                         <div class="carousel-dots" id="carouselDots"></div>
@@ -692,9 +692,11 @@
 
     // 轮播图逻辑
     let currentIndex = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const slidesContainer = document.getElementById('carouselSlides');
-    const dotsContainer = document.getElementById('carouselDots');
+    let slides = [];
+    let slidesContainer = null;
+    let dotsContainer = null;
+    let autoTimer = null;
+    let currentIndex = 0;
     let autoTimer = null;
 
     function updateCarousel() {
@@ -731,27 +733,51 @@
     }
 
     function initCarousel() {
-    	slidesContainer = document.getElementById('carouselSlides');
-    	dotsContainer = document.getElementById('carouselDots');	
-        if (slides.length === 0) return;
-        for (let i = 0; i < slides.length; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                currentIndex = i;
-                updateCarousel();
-                resetAutoTimer();
-            });
-            dotsContainer.appendChild(dot);
-        }
-        updateCarousel();
-        resetAutoTimer();
-
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    	// ✅ 重新获取 slides，因为 DOM 可能还没加载完
+    	const slides = document.querySelectorAll('.carousel-slide');
+    	const slidesContainer = document.getElementById('carouselSlides');
+    	const dotsContainer = document.getElementById('carouselDots');
+    	
+    	if (!slidesContainer || slides.length === 0) return;
+    	
+    	// 清空原有的 dots，避免重复添加
+    	dotsContainer.innerHTML = '';
+    	
+    	for (let i = 0; i < slides.length; i++) {
+    	    const dot = document.createElement('div');
+    	    dot.classList.add('dot');
+    	    if (i === 0) dot.classList.add('active');
+    	    dot.addEventListener('click', (function(index) {
+    	        return function() {
+    	            currentIndex = index;
+    	            updateCarousel();
+    	            resetAutoTimer();
+    	        };
+    	    })(i));
+    	    dotsContainer.appendChild(dot);
+    	}
+    	
+    	// 重新绑定全局 slides 变量
+    	window.slides = slides;
+    	window.slidesContainer = slidesContainer;
+    	
+    	updateCarousel();
+    	resetAutoTimer();
+	
+	    const prevBtn = document.getElementById('prevBtn');
+	    const nextBtn = document.getElementById('nextBtn');
+	    
+	    // 移除旧监听器，避免重复绑定
+    	    if (prevBtn) {
+     		const newPrevBtn = prevBtn.cloneNode(true);
+    		prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+    		newPrevBtn.addEventListener('click', prevSlide);
+    	    }
+    	    if (nextBtn) {
+    	        const newNextBtn = nextBtn.cloneNode(true);
+    		nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+    		newNextBtn.addEventListener('click', nextSlide);
+    	    }
     }
 
     function renderNotices() {
