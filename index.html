@@ -143,6 +143,8 @@
             border-radius: 28px;
             padding: 16px;
             border: 1px solid rgba(70, 180, 140, 0.3);
+            display: flex;
+            flex-direction: column;
         }
 
         .notice-section h3 {
@@ -160,6 +162,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            flex: 1;
         }
 
         .mini-notice-item {
@@ -193,11 +196,12 @@
         }
 
         .more-notice {
-            margin-top: 12px;
+            margin-top: auto;
             text-align: right;
             font-size: 0.75rem;
             color: #2f8b6e;
             cursor: pointer;
+            font-weight: 500;
         }
 
         /* 轮播图样式 */
@@ -214,25 +218,23 @@
             justify-content: center;
         }
 
-        /* slides 容器填满高度 */
         .carousel-slides {
             display: flex;
             transition: transform 0.5s ease-in-out;
             width: 100%;
             gap: 0;
-            height: 100%;  /* ✅ 关键：填满父容器 */
+            height: 100%;
         }
 
-        /* 每个 slide 也填满高度，并让内部图片居中 */
         .carousel-slide {
             flex-shrink: 0;
             width: 100%;
             min-width: 0;
             text-align: center;
-            height: 100%;  /* ✅ 填满高度 */
+            height: 100%;
             display: flex;
-            align-items: center;  /* 垂直居中 */
-            justify-content: center;  /* 水平居中 */
+            align-items: center;
+            justify-content: center;
         }
 
         .carousel-slide img {
@@ -252,25 +254,15 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            cursor: pointer;
+            cursor: default;
             font-size: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.2s;
             z-index: 2;
-        }
-
-        .carousel-btn:hover {
-            background: rgba(0,0,0,0.8);
-        }
-
-        .carousel-btn.prev {
-            left: 12px;
-        }
-
-        .carousel-btn.next {
-            right: 12px;
+            pointer-events: none;
+            opacity: 0.5;
         }
 
         .carousel-dots {
@@ -380,6 +372,7 @@
             box-shadow: 0 12px 24px -8px rgba(0, 32, 16, 0.3);
             border: 2px solid #c7f0e2;
             background: #f9fffcf0;
+            cursor: pointer;
         }
 
         .tip-note {
@@ -523,7 +516,6 @@
 <body>
 
 <div class="app-container">
-    <!-- 顶部绿色条：只有标题和Logo -->
     <div class="nav-bar">
         <div class="site-title">
             <img src="icon.ico" class="site-logo" alt="幻市地铁Logo" onerror="this.style.display='none'">
@@ -532,7 +524,6 @@
         </div>
     </div>
 
-    <!-- 白色导航栏：单独一行放按钮 -->
     <div class="white-nav">
         <button class="white-nav-btn active" id="homeBtn">🏠 首页</button>
         <button class="white-nav-btn" id="mapBtn">🗺️ 线路图</button>
@@ -540,37 +531,32 @@
     </div>
 
     <div class="content-pane" id="dynamicContent">
-        <!-- 首页 - 新布局 -->
         <div id="homeView">
             <div class="home-layout">
-                <!-- 轮播图区 -->
                 <div class="carousel-section">
                     <div class="carousel-container">
                         <div class="carousel-slides" id="carouselSlides">
-    				<div class="carousel-slide">
-        				<img src="welpic1.png" alt="幻市地铁，与您同行">1
-    				</div>
-    				<div class="carousel-slide">
-        				<img src="welpic2.png" alt="冰火港站">2
-    				</div>
-    				<div class="carousel-slide">
-        				<img src="welpic3.png" alt="清松岭站">3
-    				</div>
-    				<div class="carousel-slide">
-        				<img src="welpic4.png" alt="萝卜村车辆段">4
-    				</div>
-			</div>
+                            <div class="carousel-slide">
+                                <img src="welpic1.png" alt="幻市地铁，与您同行">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="welpic2.png" alt="冰火港站">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="welpic3.png" alt="清松岭站">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="welpic4.png" alt="萝卜村车辆段">
+                            </div>
+                        </div>
                         <button class="carousel-btn prev" id="prevBtn">❮</button>
                         <button class="carousel-btn next" id="nextBtn">❯</button>
                         <div class="carousel-dots" id="carouselDots"></div>
                     </div>
                 </div>
-                <!-- 右侧公告栏 -->
                 <div class="notice-section">
                     <h3>📢 最新公告</h3>
-                    <div class="mini-notice-list" id="miniNoticeList">
-                        <!-- 动态填充最新4条公告 -->
-                    </div>
+                    <div class="mini-notice-list" id="miniNoticeList"></div>
                     <div class="more-notice" id="gotoNoticeBtn">查看更多公告 →</div>
                 </div>
             </div>
@@ -587,7 +573,6 @@
             </div>
         </div>
 
-        <!-- 线路图页面 -->
         <div id="mapView" style="display: none;">
             <div class="map-container">
                 <div class="line-header">
@@ -605,17 +590,13 @@
             </div>
         </div>
 
-        <!-- 公告页面 -->
         <div id="noticeView" style="display: none;">
-            <div class="notice-list" id="noticeList">
-                <!-- 公告会由JavaScript动态生成 -->
-            </div>
+            <div class="notice-list" id="noticeList"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // ==================== 公告数据区 ====================
     const notices = [
         {
             title: "关于地铁1号线幻市南站将预留市域铁路快速进站通道的相关事宜",
@@ -623,7 +604,8 @@
             date: "2026-4-21 22:30:00",
             content: `
                 <p>由猪铁城际运营公司请令，幻市地铁1号线幻市南站将预留猪铁城际运营公司市域铁路的快速进站通道，我们将会于猪铁城际运营公司进行相关事宜的协商。</p>
-		<p>猪铁城际运营公司市域铁路所有车站：幻市南站，北幻站，风林站，白云湖站，猪市湾站，猪市北站，</p>                <p>幻市地铁集团有限公司</p>
+                <p>猪铁城际运营公司市域铁路所有车站：幻市南站，北幻站，风林站，白云湖站，猪市湾站，猪市北站，</p>
+                <p>幻市地铁集团有限公司</p>
                 <p>2026年4月21日</p>
             `
         },
@@ -688,21 +670,16 @@
             `
         }
     ];
-    // ==================== 公告数据区结束 ====================
 
-    // 轮播图逻辑
     let currentIndex = 0;
     let slides = [];
     let slidesContainer = null;
     let dotsContainer = null;
     let autoTimer = null;
-    let currentIndex = 0;
-    let autoTimer = null;
 
     function updateCarousel() {
-        if (slidesContainer) {
-            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-        }
+        if (!slidesContainer) return;
+        slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
         const dots = document.querySelectorAll('.dot');
         dots.forEach((dot, idx) => {
             if (idx === currentIndex) {
@@ -717,14 +694,6 @@
         if (slides.length === 0) return;
         currentIndex = (currentIndex + 1) % slides.length;
         updateCarousel();
-        resetAutoTimer();
-    }
-
-    function prevSlide() {
-        if (slides.length === 0) return;
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        updateCarousel();
-        resetAutoTimer();
     }
 
     function resetAutoTimer() {
@@ -733,51 +702,30 @@
     }
 
     function initCarousel() {
-    	// ✅ 重新获取 slides，因为 DOM 可能还没加载完
-    	const slides = document.querySelectorAll('.carousel-slide');
-    	const slidesContainer = document.getElementById('carouselSlides');
-    	const dotsContainer = document.getElementById('carouselDots');
-    	
-    	if (!slidesContainer || slides.length === 0) return;
-    	
-    	// 清空原有的 dots，避免重复添加
-    	dotsContainer.innerHTML = '';
-    	
-    	for (let i = 0; i < slides.length; i++) {
-    	    const dot = document.createElement('div');
-    	    dot.classList.add('dot');
-    	    if (i === 0) dot.classList.add('active');
-    	    dot.addEventListener('click', (function(index) {
-    	        return function() {
-    	            currentIndex = index;
-    	            updateCarousel();
-    	            resetAutoTimer();
-    	        };
-    	    })(i));
-    	    dotsContainer.appendChild(dot);
-    	}
-    	
-    	// 重新绑定全局 slides 变量
-    	window.slides = slides;
-    	window.slidesContainer = slidesContainer;
-    	
-    	updateCarousel();
-    	resetAutoTimer();
-	
-	    const prevBtn = document.getElementById('prevBtn');
-	    const nextBtn = document.getElementById('nextBtn');
-	    
-	    // 移除旧监听器，避免重复绑定
-    	    if (prevBtn) {
-     		const newPrevBtn = prevBtn.cloneNode(true);
-    		prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
-    		newPrevBtn.addEventListener('click', prevSlide);
-    	    }
-    	    if (nextBtn) {
-    	        const newNextBtn = nextBtn.cloneNode(true);
-    		nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
-    		newNextBtn.addEventListener('click', nextSlide);
-    	    }
+        slides = document.querySelectorAll('.carousel-slide');
+        slidesContainer = document.getElementById('carouselSlides');
+        dotsContainer = document.getElementById('carouselDots');
+        
+        if (!slidesContainer || slides.length === 0) return;
+        
+        dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < slides.length; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', (function(index) {
+                return function() {
+                    currentIndex = index;
+                    updateCarousel();
+                    resetAutoTimer();
+                };
+            })(i));
+            dotsContainer.appendChild(dot);
+        }
+        
+        updateCarousel();
+        resetAutoTimer();
     }
 
     function renderNotices() {
@@ -805,7 +753,6 @@
         noticeList.innerHTML = html;
     }
 
-    // 生成首页右侧的4条最新公告（显示发布人 + 日期）
     function renderMiniNotices() {
         const container = document.getElementById('miniNoticeList');
         if (!container) return;
@@ -846,7 +793,6 @@
         });
     }
 
-    // 页面切换逻辑（按钮已改到白色导航栏）
     const homeBtn = document.getElementById('homeBtn');
     const mapBtn = document.getElementById('mapBtn');
     const noticeBtn = document.getElementById('noticeBtn');
