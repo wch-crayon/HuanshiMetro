@@ -201,40 +201,39 @@
         }
 
         /* 轮播图样式 */
-	.carousel-container {
-    		position: relative;
-    		width: 100%;
-    		border-radius: 24px;
-    		overflow: hidden;
-    		box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    		background: #c8e6df;
-		flex: 1;
-    		display: flex;
-    		flex-direction: column;
-	}
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background: #c8e6df;
+            flex: 1;  /* 让容器高度填满 */
+            display: flex;
+            align-items: center;  /* 垂直居中 */
+            justify-content: center;  /* 水平居中 */
+        }
 
-	.carousel-slides {
-    		display: flex;
-    		transition: transform 0.5s ease-in-out;
-    		width: 100%;
-		gap: 0;
-    		flex: 1;
-	}
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            gap: 0;
+        }
 
-	.carousel-slide {
-    		flex-shrink: 0;
-    		width: 100%;
-		min-width: 0;
-    		display: flex;
-	}
+        .carousel-slide {
+            flex-shrink: 0;
+            width: 100%;
+            min-width: 0;
+            text-align: center;
+        }
 
-	.carousel-slide img {
-    		width: 100%;
-    		height: 100%;
-		object-fit: cover;
-    		display: block;
-		vertical-align: top;
-	}
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            vertical-align: top;
+        }
 
         .carousel-btn {
             position: absolute;
