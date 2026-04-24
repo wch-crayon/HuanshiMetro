@@ -208,24 +208,31 @@
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             background: #c8e6df;
-            flex: 1;  /* 让容器高度填满 */
+            flex: 1;
             display: flex;
-            align-items: center;  /* 垂直居中 */
-            justify-content: center;  /* 水平居中 */
+            align-items: center;
+            justify-content: center;
         }
 
+        /* slides 容器填满高度 */
         .carousel-slides {
             display: flex;
             transition: transform 0.5s ease-in-out;
             width: 100%;
             gap: 0;
+            height: 100%;  /* ✅ 关键：填满父容器 */
         }
 
+        /* 每个 slide 也填满高度，并让内部图片居中 */
         .carousel-slide {
             flex-shrink: 0;
             width: 100%;
             min-width: 0;
             text-align: center;
+            height: 100%;  /* ✅ 填满高度 */
+            display: flex;
+            align-items: center;  /* 垂直居中 */
+            justify-content: center;  /* 水平居中 */
         }
 
         .carousel-slide img {
