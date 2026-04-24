@@ -214,17 +214,20 @@
     		display: flex;
     		transition: transform 0.5s ease-in-out;
     		width: 100%;
+		gap: 0;
 	}
 
 	.carousel-slide {
     		flex-shrink: 0;
     		width: 100%;
+		min-width: 0;
 	}
 
 	.carousel-slide img {
     		width: 100%;
     		height: auto;
     		display: block;
+		vertical-align: top;
 	}
 
         .carousel-btn {
@@ -716,6 +719,8 @@
     }
 
     function initCarousel() {
+    	slidesContainer = document.getElementById('carouselSlides');
+    	dotsContainer = document.getElementById('carouselDots');	
         if (slides.length === 0) return;
         for (let i = 0; i < slides.length; i++) {
             const dot = document.createElement('div');
