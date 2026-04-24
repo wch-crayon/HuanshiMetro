@@ -131,6 +131,50 @@
             flex-direction: column;
         }
 
+        /* 关键修改：让轮播容器高度与右侧公告栏区域一致，使用flex拉伸 */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background: #c8e6df;
+            /* 高度将由父级carousel-section和flex决定，设置为100%来填充 */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;  /* 垂直居中内容 */
+        }
+
+        /* 轮播滑动区域也需要占满且内部图片居中 */
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #c8e6df;
+        }
+
+        /* 图片自适应，保持比例并居中，最大高度100%，宽度100%但保持比例 */
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+            object-fit: contain;  /* 保证图片完整显示在区域内，居中 */
+            margin: 0 auto;
+        }
+
         .notice-section {
             flex: 1.2;
             min-width: 220px;
@@ -139,6 +183,7 @@
             border-radius: 28px;
             padding: 16px;
             border: 1px solid rgba(70, 180, 140, 0.3);
+            /* 确保公告栏高度由内容撑开并与轮播等高，align-items: stretch 已经确保 */
         }
 
         .notice-section h3 {
@@ -194,32 +239,6 @@
             font-size: 0.75rem;
             color: #2f8b6e;
             cursor: pointer;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            background: #c8e6df;
-        }
-
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            width: 100%;
-        }
-
-        .carousel-slide {
-            flex-shrink: 0;
-            width: 100%;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: auto;
-            display: block;
         }
 
         .carousel-btn {
@@ -473,6 +492,7 @@
                 padding: 6px 16px;
                 font-size: 1rem;
             }
+            /* 移动端轮播高度自适应，不需要特殊调整，flex拉伸仍然有效 */
         }
 
         @media (max-width: 650px) {
